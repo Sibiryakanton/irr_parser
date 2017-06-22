@@ -1,0 +1,14 @@
+.content {
+    float:left;
+    margin-left:40%;
+}
+
+.content h1{
+    text-align:center;
+}
+
+.content img{
+    width:600px;
+    height:500px;
+    
+}

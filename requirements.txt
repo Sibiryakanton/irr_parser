@@ -1,0 +1,4 @@
+matplotlib
+django-celery
+requests
+bs4

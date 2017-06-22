@@ -1,0 +1,12 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+
+		<h1>IRR Parser</h1>
+        <form action='{% url "Index" %}' method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type='submit' value='Получить отчет' />
+        </form>
+	
+{% endblock content%}
