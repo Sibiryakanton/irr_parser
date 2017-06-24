@@ -1,3 +1,4 @@
+from __future__ import absolute_import, unicode_literals
 """
 Django settings for irr_parser project.
 
@@ -10,8 +11,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
-import os
 
+import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,8 +29,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+#CELERY_CONSTANTS
+CELERY_RESULT_BACKEND = 'django-db'
 
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'parser_main_app',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +131,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'parser_main_app', 'media')
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_USE_TLS=True
+EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'oriflamesender'
-EMAIL_HOST_PASSWORD= 'qjzxtfg23'
+EMAIL_HOST_PASSWORD = 'qjzxtfg23'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

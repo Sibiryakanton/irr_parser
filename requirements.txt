@@ -1,4 +1,10 @@
-matplotlib
-django-celery
+django==1.10
 requests
+matplotlib
+celery
+django-celery (под вопросом)
+sqlalchemy
 bs4
+Pillow
+redis
+django-celery-results

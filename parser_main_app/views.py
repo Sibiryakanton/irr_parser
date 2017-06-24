@@ -29,7 +29,7 @@ class ShowResult(TemplateView):
         return render(request, 'show_shedules.html', \
                     {'current_order':current_order})
 
-@task                    
+                 
 def start_parsing(request, url, user_mail, order_number):
     main_parse_process(url, order_number) #Парсер должен сохранять изображения по нужному адресу с привязкой к модели
     send_notification(request, user_mail, order_number)
