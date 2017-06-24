@@ -2,7 +2,7 @@ django==1.10
 requests
 matplotlib
 celery
-django-celery (под вопросом)
+django-celery
 sqlalchemy
 bs4
 Pillow
