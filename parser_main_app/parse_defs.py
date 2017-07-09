@@ -16,11 +16,11 @@ def main_parse_process(url, order_number):
     count_ads_per_hour = {} #Создаем словарь, в котором будем хранить кол-во объявлений на каждый час.
     count_ads_per_day = {} #Словарь для кол-ва объявления на каждый день.
     parse(get_html(url), filename, count_ads_per_hour, count_ads_per_day) 
-    number=2
+    number = 2
     root_url = url
     print(url)
     while True:
-        url = root_url+'page{0}'.format(number)
+        url = root_url + 'page{0}'.format(number)
         response = requests.get(url)
         if response.url == root_url or number>2:
             print('Проверка завершена!')

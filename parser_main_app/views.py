@@ -8,7 +8,7 @@ from .models import *
 from django.core.mail import send_mail
 
 import os
-from celery import task
+from celery import task, shared_task
 import json
 
 class Index(TemplateView):
@@ -24,7 +24,7 @@ class Index(TemplateView):
         post_dict['order_number'] = current_order.pk
         post_dict['host_name'] = request.get_host()
         json_data = json.dumps(post_dict)
-        print('HI,', json_data)
+
         start_parsing.delay(json_data)
 
         return render(request, 'thanks.html', {})

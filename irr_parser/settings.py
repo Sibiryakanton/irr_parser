@@ -1,4 +1,5 @@
 from __future__ import absolute_import, unicode_literals
+
 """
 Django settings for irr_parser project.
 
@@ -10,7 +11,8 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-#CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
+
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TASK_SERIALIZER = 'json'
@@ -43,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'parser_main_app',
-    'django_celery_results'
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
