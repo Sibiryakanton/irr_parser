@@ -47,8 +47,8 @@ def start_parsing(data):
     current_order_pk = normal_data.get('order_number')
     host_name = normal_data.get('host_name')
     #main_parse_process(url, current_order_pk)
-    parser_object = IrrParser(url, current_order_pk)
-    parser_object.main_parse_process()  # Парсер должен сохранять изображения по нужному адресу с привязкой к объекту отчета
+    #parser_object = IrrParser(url, current_order_pk)
+    #parser_object.main_parse_process()  # Парсер должен сохранять изображения по нужному адресу с привязкой к объекту отчета
     send_notification(email, current_order_pk, host_name)
 
 
