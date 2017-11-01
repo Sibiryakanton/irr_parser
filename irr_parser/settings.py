@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
+#CELERY_BROKER_URL = 'redis://guest:guest@localhost//'
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'django-db'
@@ -31,10 +31,7 @@ SECRET_KEY = 'k+uy7_o+37pe)h*-*-t%q0pb(8(_74tqgshuvag-x2)=j5m@n0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
-
+ALLOWED_HOSTS = ['*',]
 
 # Application definition
 INSTALLED_APPS = [

@@ -13,19 +13,25 @@ def main_parse_process(url, order_number):
     filename = 'output-{0}.txt'.format(url_for_filename)
     count_ads_per_hour = {}  # Создаем словарь, в котором будем хранить кол-во объявлений на каждый час.
     count_ads_per_day = {}  # Словарь для кол-ва объявления на каждый день.
+
     parse(get_html(url), filename, count_ads_per_hour, count_ads_per_day)
+
+    # Для страниц от второй и далее в конце ссылки используется конструкция ?page[n]. вместо n будет number
     number = 2
-    root_url = url
 
     while True:
-        url = root_url + 'page{0}'.format(number)
+        # Собираем url, получаем из него содержимое для передачи в парсер
+        url = url + 'page{0}'.format(number)
         response = requests.get(url)
-        if response.url == root_url or number > 2:
+        if response.url == url or number > 2:
             break
+
         parse(get_html(url), filename, count_ads_per_hour, count_ads_per_day)
+
         number += 1
         print(url)
 
+    #Создаем png-изображения графиков
     build_shedules(count_ads_per_day, count_ads_per_hour, url_for_filename, order_number)
 
 
@@ -38,6 +44,7 @@ def parse(html, filename, count_ads_per_hour, count_ads_per_day):  # Извле�
     soup = BeautifulSoup(html, 'lxml')
     table = soup.find_all('div', class_='updateProduct')
 
+    # собираем дату публикации в найденных div-контейнерах. Если не указана, значит, текст опубликован сегодня
     for elem in table:
         ads_span = elem.find('span')
         if ads_span is not None:
@@ -111,19 +118,20 @@ def build_shedules(count_ads_per_day, count_ads_per_hour, url_for_filename, orde
         os.makedirs(path_for_images)  # Создаем папку для графиков
 
     week = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+
     sorted_ads_count = []
     for day in week:
         ads_day_count = count_ads_per_day.get(day)
         sorted_ads_count.append(ads_day_count)
+
     fig = plt.figure()
-    plt.xlabel('День недели')
-    plt.ylabel('Количество объявлений')
     plt.plot(sorted_ads_count)
+    plt.xlabel('День недели')
     plt.xticks(range(7), week)
+    plt.ylabel('Количество объявлений')
     path_week_shedule = os.path.join(path_for_images, '{}-week_activity.png'.format(url_for_filename))
     plt.savefig(path_week_shedule, fmt='png')  # Собрали и сохранили график суточной активности
     plt.close(fig)
-    fig = plt.figure()
 
     sorted_hour_activity = []
     for i in range(24):
@@ -133,12 +141,14 @@ def build_shedules(count_ads_per_day, count_ads_per_hour, url_for_filename, orde
 
         sorted_hour_activity.append(ads_hour_count)
 
+    fig = plt.figure()
     plt.plot(sorted_hour_activity)
     plt.xticks(range(24))
     plt.xlabel('Час')
     plt.ylabel('Количество объявлений')
     path_hour_shedule = os.path.join(path_for_images, '{}-hour_activity.png'.format(url_for_filename))
     plt.savefig(path_hour_shedule, fmt='png')  # Собрали и сохранили график недельной активности
+    plt.close(fig)
 
     # Привяжем полученные графики к моделям объектов с помощью имен путей
     current_order = OrderModel.objects.get(pk=int(order_number))
@@ -147,4 +157,4 @@ def build_shedules(count_ads_per_day, count_ads_per_hour, url_for_filename, orde
     current_order.hour_shedule.name = os.path.join('images/orders/shedules{}/{}-hour_activity.png'.format
                                                    (part_dirname, url_for_filename))
     current_order.save()
-    plt.close(fig)
+

@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.core.mail import send_mail
 from django.utils import timezone
 
-from .parse_defs import main_parse_process
+from .parse_defs import IrrParser
 from .forms import OrderModelForm
 from .models import *
 
@@ -46,7 +46,9 @@ def start_parsing(data):
     email = normal_data.get('email')
     current_order_pk = normal_data.get('order_number')
     host_name = normal_data.get('host_name')
-    main_parse_process(url, current_order_pk)  # Парсер должен сохранять изображения по нужному адресу с привязкой к объекту отчета
+    #main_parse_process(url, current_order_pk)
+    parser_object = IrrParser(url, current_order_pk)
+    parser_object.main_parse_process()  # Парсер должен сохранять изображения по нужному адресу с привязкой к объекту отчета
     send_notification(email, current_order_pk, host_name)
 
 
